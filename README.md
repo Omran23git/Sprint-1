@@ -6,8 +6,23 @@
 - Mostafa
 - Ismail
 ## Description
-This project is being developed as part of the Software Engineering module.
-It will be expanded in later sprints.
+## Project Description
+
+This project is a team-based software development assignment following the Scrum methodology. 
+The goal is to deliver a functional application iteratively, with progress tracked through weekly stand-up meetings and formal code-review checkpoints.
+
+In Sprint 1, our focus is on establishing the project workflow, clarifying the project idea, and adopting a Code of Conduct. 
+We have set up a GitHub repository with contributions from all team members, created the product backlog and Kanban board, and added the project scaffolding and README file. 
+
+Key deliverables for Sprint 1 include:
+- Clear team collaboration through version control on GitHub
+- Initial project structure with scaffolding files
+- A refined project idea with documented workflows
+- Defined Code of Conduct, personas, and ethical considerations
+- Meeting records to track weekly progress
+
+This project lays the foundation for subsequent sprints, ensuring all team members can contribute efficiently and the development environment is fully functional.
+
 
 ## Contributions
 Contribution by Kuval and Omran
