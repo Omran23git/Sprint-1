@@ -44,3 +44,37 @@ project-root/
 │── docker-compose.yml
 │── Dockerfile
 │── README.md
+## How to Run the Project
+
+### Prerequisites
+- Docker installed
+
+### Installation Steps
+
+1. Clone the repository:
+   git clone https://github.com/your-repo-link
+
+2. Navigate into the project folder:
+   cd project-folder-name
+
+3. Build and start the containers:
+   docker-compose up --build
+
+4. Open your browser and go to:
+   http://localhost:3000
+
+
+## Project Structure
+
+- /src → Application source code
+- /docs → Documentation files
+- Dockerfile → Container configuration
+- docker-compose.yml → Service configuration
+
+
+## Contributions
+
+Each team member has contributed at least one commit to the repository.
+
+
+
