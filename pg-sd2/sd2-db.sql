@@ -1,66 +1,65 @@
--- phpMyAdmin SQL Dump
--- version 5.1.1
--- https://www.phpmyadmin.net/
---
--- Host: db
--- Generation Time: Oct 30, 2022 at 09:54 AM
--- Server version: 8.0.24
--- PHP Version: 7.4.20
+DROP TABLE IF EXISTS listing_categories;
+DROP TABLE IF EXISTS listings;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS users;
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  bio TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
+CREATE TABLE listings (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  title VARCHAR(150) NOT NULL,
+  author VARCHAR(150) NOT NULL,
+  isbn VARCHAR(20),
+  description TEXT,
+  book_condition VARCHAR(50),
+  status VARCHAR(50),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+CREATE TABLE categories (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL UNIQUE
+);
 
---
--- Database: `sd2-db`
---
+CREATE TABLE listing_categories (
+  listing_id INT NOT NULL,
+  category_id INT NOT NULL,
+  PRIMARY KEY (listing_id, category_id),
+  FOREIGN KEY (listing_id) REFERENCES listings(id),
+  FOREIGN KEY (category_id) REFERENCES categories(id)
+);
 
--- --------------------------------------------------------
+INSERT INTO users (name, email, password, bio) VALUES
+('Alice Smith', 'alice@example.com', 'password123', 'Loves classic fiction and book swaps.'),
+('Bob Jones', 'bob@example.com', 'password123', 'Interested in tech and textbooks.'),
+('Chloe Patel', 'chloe@example.com', 'password123', 'Enjoys non-fiction and self-help books.');
 
---
--- Table structure for table `test_table`
---
+INSERT INTO listings (user_id, title, author, isbn, description, book_condition, status) VALUES
+(1, 'The Great Gatsby', 'F. Scott Fitzgerald', '9780743273565', 'Classic novel in good condition.', 'Good', 'Available'),
+(2, 'Introduction to Algorithms', 'Cormen et al.', '9780262046305', 'Useful textbook for computing students.', 'Used', 'Available'),
+(3, 'Atomic Habits', 'James Clear', '9781847941831', 'Popular self-help book.', 'Like New', 'Reserved');
 
-CREATE TABLE `test_table` (
-  `id` int NOT NULL,
-  `name` varchar(512) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+INSERT INTO categories (name) VALUES
+('Fiction'),
+('Classic'),
+('Textbook'),
+('Computer Science'),
+('Non-fiction'),
+('Self-help');
 
---
--- Dumping data for table `test_table`
---
-
-INSERT INTO `test_table` (`id`, `name`) VALUES
-(1, 'Lisa'),
-(2, 'Kimia');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `test_table`
---
-ALTER TABLE `test_table`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `test_table`
---
-ALTER TABLE `test_table`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+INSERT INTO listing_categories (listing_id, category_id) VALUES
+(1, 1),
+(1, 2),
+(2, 3),
+(2, 4),
+(3, 5),
+(3, 6);
