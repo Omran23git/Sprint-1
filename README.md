@@ -96,4 +96,9 @@ project-root/
 
 Each team member has contributed at least one commit to the repository.
 
+Sprint 3 Tasks Progress:
+- Users page started
+- Listings page planned
+- Categories integration in progress
+
 

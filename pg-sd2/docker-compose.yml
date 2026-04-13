@@ -1,16 +1,16 @@
-version: '3.3'
 services:
   web:
     build:
       context: ./
     volumes:
       - .:/src
-      - /src/node_modules
     command: supervisor -e 'js,pug,html' index.js
     ports:
       - "3000:3000"
     depends_on:
       - db
+    env_file:
+      - ./.env
 
   db:
     image: mysql
@@ -20,15 +20,21 @@ services:
     ports:
       - "3308:3306"
     volumes:
-      - ./db:/var/lib/mysql
-      - ./sd2-db.sql:/docker-entrypoint-initdb.d/sd2-db.sql
+      - mysql_data:/var/lib/mysql
+      - ./sd2-db.sql:/docker-entrypoint-initdb.d/sd2-db.sql:ro
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     restart: always
     env_file:
       - ./.env
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
     ports:
       - "8081:80"
-      
-      
+    depends_on:
+      - db
+
+volumes:
+  mysql_data:
