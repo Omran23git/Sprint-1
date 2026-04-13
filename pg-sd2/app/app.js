@@ -57,8 +57,6 @@ app.get("/goodbye", function (req, res) {
   res.send("Goodbye world!");
 });
 
-  }
-});
 
 app.get("/hello/:name", function (req, res) {
   res.send("Hello " + req.params.name);
