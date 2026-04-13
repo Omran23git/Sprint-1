@@ -1,65 +1,51 @@
-DROP TABLE IF EXISTS listing_categories;
 DROP TABLE IF EXISTS listings;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS users;
 
+-- USERS
 CREATE TABLE users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  email VARCHAR(100) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL,
-  bio TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE listings (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT NOT NULL,
-  title VARCHAR(150) NOT NULL,
-  author VARCHAR(150) NOT NULL,
-  isbn VARCHAR(20),
-  description TEXT,
-  book_condition VARCHAR(50),
-  status VARCHAR(50),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(id)
-);
-
+-- CATEGORIES (ONLY BOOK RELATED NOW)
 CREATE TABLE categories (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL UNIQUE
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE listing_categories (
-  listing_id INT NOT NULL,
-  category_id INT NOT NULL,
-  PRIMARY KEY (listing_id, category_id),
-  FOREIGN KEY (listing_id) REFERENCES listings(id),
-  FOREIGN KEY (category_id) REFERENCES categories(id)
+-- LISTINGS (BOOKS ONLY)
+CREATE TABLE listings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(150) NOT NULL,
+    description TEXT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    user_id INT NOT NULL,
+    category_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
-INSERT INTO users (name, email, password, bio) VALUES
-('Alice Smith', 'alice@example.com', 'password123', 'Loves classic fiction and book swaps.'),
-('Bob Jones', 'bob@example.com', 'password123', 'Interested in tech and textbooks.'),
-('Chloe Patel', 'chloe@example.com', 'password123', 'Enjoys non-fiction and self-help books.');
+-- USERS DATA
+INSERT INTO users (name, email) VALUES
+('Ismail Aktouf', 'ismail@example.com'),
+('Omran Ali', 'omran@example.com'),
+('Sarah Khan', 'sarah@example.com');
 
-INSERT INTO listings (user_id, title, author, isbn, description, book_condition, status) VALUES
-(1, 'The Great Gatsby', 'F. Scott Fitzgerald', '9780743273565', 'Classic novel in good condition.', 'Good', 'Available'),
-(2, 'Introduction to Algorithms', 'Cormen et al.', '9780262046305', 'Useful textbook for computing students.', 'Used', 'Available'),
-(3, 'Atomic Habits', 'James Clear', '9781847941831', 'Popular self-help book.', 'Like New', 'Reserved');
-
+-- BOOK CATEGORIES ONLY
 INSERT INTO categories (name) VALUES
 ('Fiction'),
-('Classic'),
-('Textbook'),
-('Computer Science'),
-('Non-fiction'),
-('Self-help');
+('Non-Fiction'),
+('Academic');
 
-INSERT INTO listing_categories (listing_id, category_id) VALUES
-(1, 1),
-(1, 2),
-(2, 3),
-(2, 4),
-(3, 5),
-(3, 6);
+-- BOOK LISTINGS
+INSERT INTO listings (title, description, price, user_id, category_id) VALUES
+('Atomic Habits', 'Self-improvement book in great condition', 10.00, 1, 2),
+('The Great Gatsby', 'Classic fiction novel', 5.00, 2, 1),
+('Introduction to Algorithms', 'University textbook, slightly used', 30.00, 3, 3);
+
+-- CHECK DATA
+SELECT * FROM users;
+SELECT * FROM categories;
+SELECT * FROM listings;
