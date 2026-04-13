@@ -9,7 +9,7 @@ app.use(express.static("static"));
 
 // Get the functions in the db.js file to use
 const db = require('./services/db');
-
+const listingsModel = require('./services/listings');
 // Create a route for root - /
 app.get("/", function(req, res) {
     res.send("Hello world!");
@@ -41,7 +41,20 @@ app.get("/hello/:name", function(req, res) {
     //  Retrieve the 'name' parameter and use it in a dynamically generated page
     res.send("Hello " + req.params.name);
 });
+// your other routes...
 
+app.get('/listings/:id', async function (req, res) {
+  try {
+    const listing = await listingsModel.getListingById(req.params.id);
+    res.render('listing', { listing: listing });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error loading listing');
+  }
+});
+
+// Start server on port 3000
+app.listen(3000, function() {
 // Start server on port 3000
 app.listen(3000,function(){
     console.log(`Server running at http://127.0.0.1:3000/`);
