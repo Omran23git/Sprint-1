@@ -93,5 +93,30 @@ app.get("/book/:id", async function (req, res) {
     res.status(500).send("Error loading listing");
   }
 });
-
+app.get('/users', async function (req, res) {
+  try {
+    const users = await usersModel.getAllUsers();
+    res.render('users', { users: users });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error loading users');
+  }
+});
+app.get('/users/:id', async function (req, res) {
+  try {
+    const user = await usersModel.getUserById(req.params.id);
+    res.render('user', { user: user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error loading user');
+  }
+});app.get('/listings', async function (req, res) {
+  try {
+    const listings = await listingsModel.getAllListings();
+    res.render('listings', { listings: listings });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error loading listings');
+  }
+});
 module.exports = app;

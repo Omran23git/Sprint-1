@@ -14,32 +14,32 @@ Purpose: store users of the Book Swap app.
 
 Fields:
 - id (PK, INT, auto increment)
-- name (VARCHAR, required)
-- email (VARCHAR, required, unique)
-- password_hash (VARCHAR, required)
-- bio (TEXT, optional)
-- created_at (DATETIME, optional)
+- name (VARCHAR, NOT NULL)
+- email (VARCHAR, NOT NULL, unique)
+- password_hash (VARCHAR, NOT NULL)
+- bio (TEXT, NULL)
+- created_at (DATETIME, NULL)
 
 ### 2) listings
 Purpose: store books offered for swapping.
 
 Fields:
 - id (PK, INT, auto increment)
-- user_id (FK → users.id, required)
-- title (VARCHAR, required)
-- author (VARCHAR, optional)
-- isbn (VARCHAR, optional)
-- description (TEXT, optional)
-- book_condition (VARCHAR, optional; e.g. New/Good/Used)
-- status (VARCHAR, required; e.g. available/reserved/swapped)
-- created_at (DATETIME, optional)
+- user_id (FK → users.id, NOT NULL)
+- title (VARCHAR, NOT NULL)
+- author (VARCHAR, NULL)
+- isbn (VARCHAR, NULL)
+- description (TEXT, NULL)
+- book_condition (VARCHAR, NULL; e.g. New/Good/Used)
+- status (VARCHAR, NOT NULL; e.g. available/reserved/swapped)
+- created_at (DATETIME, NULL)
 
 ### 3) categories
 Purpose: store genres/tags.
 
 Fields:
 - id (PK, INT, auto increment)
-- name (VARCHAR, required, unique)
+- name (VARCHAR, NOT NULL, unique)
 
 ### 4) listing_categories (junction table)
 Purpose: allow a listing to have multiple categories/tags.
