@@ -51,14 +51,19 @@ The goal of the application is to provide **in a simple and accessible way.
 
 ---
 
-## project structure 
+## project structure
+
+
 ```text
 project-root/
 │── frontend/
 │── backend/
 │── docker-compose.yml
 │── Dockerfile
-│── README.md
+│── README.md 
+```
+---
+
 ## How to Run the Project
 
 ### Prerequisites
@@ -90,6 +95,5 @@ project-root/
 ## Contributions
 
 Each team member has contributed at least one commit to the repository.
-
 
 
