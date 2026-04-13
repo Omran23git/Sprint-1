@@ -91,5 +91,14 @@ project-root/
 
 Each team member has contributed at least one commit to the repository.
 
+## How to run
+
+1. Make sure Docker Desktop is open
+2. In the project folder, run:
+
+```bash
+docker compose down -v
+docker compose up --build
+
 
 
