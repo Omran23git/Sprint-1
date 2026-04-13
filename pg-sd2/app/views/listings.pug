@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    title Listings
+  body
+    h1 Book Listings
+
+    if listings.length
+      each listing in listings
+        div(style="border:1px solid #ccc; padding:10px; margin-bottom:10px;")
+          h2
+            a(href=`/listings/${listing.id}`)= listing.title
+          p Author: #{listing.author}
+          p Condition: #{listing.book_condition}
+          p Status: #{listing.status}
+
+          if listing.categories.length
+            p Tags:
+            ul
+              each category in listing.categories
+                li= category.name
+    else
+      p No listings found.

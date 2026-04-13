@@ -7,10 +7,12 @@ const categoriesModel = require("./services/categories");
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, "..", "static")));
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
 
+app.use(express.static(path.join(__dirname, "..", "static")));
 app.get("/", function (req, res) {
-  res.send("Hello world!");
+  res.redirect("/listings");
 });
 
 app.get("/db_test", async function (req, res) {
@@ -23,42 +25,73 @@ app.get("/db_test", async function (req, res) {
   }
 });
 
-app.get("/users_test", async function (req, res) {
+app.get("/users", async function (req, res) {
   try {
-    const rows = await usersModel.getAllUsers();
-    res.json(rows);
+    const users = await usersModel.getAllUsers();
+    res.render("users", { users: users });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Users query failed");
+    res.status(500).send("Error loading users");
   }
 });
 
-app.get("/listings_test", async function (req, res) {
+app.get("/users/:id", async function (req, res) {
   try {
-    const rows = await listingsModel.getAllListings();
-    res.json(rows);
+    const user = await usersModel.getUserById(req.params.id);
+    const listings = await listingsModel.getListingsByUserId(req.params.id);
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    res.render("user", { user: user, listings: listings });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Listings query failed");
+    res.status(500).send("Error loading user");
   }
 });
 
-app.get("/categories_test", async function (req, res) {
+app.get("/listings", async function (req, res) {
   try {
-    const rows = await categoriesModel.getAllCategories();
-    res.json(rows);
+    const listings = await listingsModel.getAllListings();
+
+    const listingsWithCategories = await Promise.all(
+      listings.map(async function (listing) {
+        const categories = await categoriesModel.getListingCategories(listing.id);
+        return {
+          ...listing,
+          categories: categories,
+        };
+      })
+    );
+
+    res.render("listings", { listings: listingsWithCategories });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Categories query failed");
+    res.status(500).send("Error loading listings");
   }
 });
 
-app.get("/goodbye", function (req, res) {
-  res.send("Goodbye world!");
-});
+app.get("/listings/:id", async function (req, res) {
+  try {
+    const listing = await listingsModel.getListingById(req.params.id);
 
-app.get("/hello/:name", function (req, res) {
-  res.send("Hello " + req.params.name);
+    if (!listing) {
+      return res.status(404).send("Listing not found");
+    }
+
+    const categories = await categoriesModel.getListingCategories(req.params.id);
+    const owner = await usersModel.getUserById(listing.user_id);
+
+    res.render("listing", {
+      listing: listing,
+      categories: categories,
+      owner: owner,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error loading listing");
+  }
 });
 
 module.exports = app;

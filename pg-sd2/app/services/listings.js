@@ -9,7 +9,12 @@ async function getListingById(id) {
   return rows[0];
 }
 
+async function getListingsByUserId(userId) {
+  return await db.query("SELECT * FROM listings WHERE user_id = ?", [userId]);
+}
+
 module.exports = {
   getAllListings,
   getListingById,
+  getListingsByUserId,
 };
