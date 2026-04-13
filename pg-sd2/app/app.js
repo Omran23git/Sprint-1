@@ -57,6 +57,16 @@ app.get("/goodbye", function (req, res) {
   res.send("Goodbye world!");
 });
 
+app.get('/users', async function (req, res) {
+  try {
+    const users = await usersModel.getAllUsers();
+    res.json(users);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error loading users');
+  }
+});
+
 app.get("/hello/:name", function (req, res) {
   res.send("Hello " + req.params.name);
 });
