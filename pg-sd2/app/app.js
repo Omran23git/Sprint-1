@@ -12,7 +12,7 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static(path.join(__dirname, "..", "static")));
 app.get("/", function (req, res) {
-  res.redirect("/listings");
+  res.render("index");
 });
 
 app.get("/db_test", async function (req, res) {
@@ -72,7 +72,7 @@ app.get("/listings", async function (req, res) {
   }
 });
 
-app.get("/listings/:id", async function (req, res) {
+app.get("/book/:id", async function (req, res) {
   try {
     const listing = await listingsModel.getListingById(req.params.id);
 
@@ -83,7 +83,7 @@ app.get("/listings/:id", async function (req, res) {
     const categories = await categoriesModel.getListingCategories(req.params.id);
     const owner = await usersModel.getUserById(listing.user_id);
 
-    res.render("listing", {
+    res.render("book", {
       listing: listing,
       categories: categories,
       owner: owner,
