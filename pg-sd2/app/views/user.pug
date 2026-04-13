@@ -1,11 +1,41 @@
 doctype html
 html
   head
-    title User
+    title User Profile
+    link(rel="stylesheet", href="/styles.css")
   body
-    h1 User Profile
+    header
+      h1 Book Swap
+      nav
+  a(href="/") Home
+  a(href="/listings") Listings
+  a(href="/users") Users
 
-    if user
-      p ID: #{user.id}
-    else
-      p User not found
+    .container
+      if user
+        h2.section-title= user.name
+
+        .card
+          p.meta
+            strong Email:
+            |  #{user.email}
+          p.meta
+            strong Bio:
+            |  #{user.bio || "No bio available."}
+
+        h3 Listings by this user
+
+        if listings.length
+          each listing in listings
+            .card
+              h3
+                a(href=`/listings/${listing.id}`)= listing.title
+              p.meta Author: #{listing.author}
+              p.meta Condition: #{listing.book_condition}
+              p.meta Status: #{listing.status}
+        else
+          p This user has no listings.
+
+        a.button-link(href="/users") Back to Users
+      else
+        p User not found.

@@ -2,9 +2,33 @@ doctype html
 html
   head
     title Listings
+    link(rel="stylesheet", href="/styles.css")
   body
-    h1 Listings
+    header
+      h1 Book Swap
+    nav
+  a(href="/") Home
+  a(href="/listings") Listings
+  a(href="/users") Users
 
-    each listing in listings
-      div
-        p= listing.id
+    .container
+      h2.section-title Book Listings
+      p.small-note Browse all available books for swap.
+
+      if listings.length
+        each listing in listings
+          .card
+            h3
+              a(href=`/book/${listing.id}`)= listing.title
+            p.meta Author: #{listing.author}
+            p.meta Condition: #{listing.book_condition}
+            p.meta Status: #{listing.status}
+
+            if listing.categories.length
+              ul.tag-list
+                each category in listing.categories
+                  li= category.name
+
+            a.button-link(href=`/book/${listing.id}`) View Details
+      else
+        p No listings found.
