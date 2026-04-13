@@ -70,5 +70,22 @@ app.get('/users', async function (req, res) {
 app.get("/hello/:name", function (req, res) {
   res.send("Hello " + req.params.name);
 });
-
+app.get('/users', async function (req, res) {
+  try {
+    const users = await usersModel.getAllUsers();
+    res.render('users', { users: users });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error loading users');
+  }
+});
+app.get('/users/:id', async function (req, res) {
+  try {
+    const user = await usersModel.getUserById(req.params.id);
+    res.render('user', { user: user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error loading user');
+  }
+});
 module.exports = app;
